@@ -1,0 +1,27 @@
+services:
+
+  application_server:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    image: application_server:v1
+    container_name: application_server_c1
+    working_dir: /Node-app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database_server
+    volumes:
+      - ..:/Node-app
+
+  database_server:
+    env_file:
+      - ../.env
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongod_data:/data/db
+
+volumes:
+  mongod_data:
